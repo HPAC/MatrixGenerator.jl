@@ -1,6 +1,7 @@
 language: julia
 julia:
-    - 0.5
+    # RowVector is not supported in Julia 0.5
+    #    - 0.5
     - 0.6
 
 #Use default script
