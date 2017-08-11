@@ -18,7 +18,7 @@ properties[ [Properties.SPD, Properties.Positive] ] = Nullable(x -> @test x >= 0
 #We have to treat it differently.
 # Also for general matrix: for a vector case 1x1 ensure that only element is > 0
 func_general = mat -> @test size(mat, 1) > 1 ? issymmetric(mat) && isposdef(mat) : mat[1] > 0
-func_symmetric = mat -> @test isposdef(mat.data)
+func_symmetric = mat -> @test isa(mat, Symmetric) ? isposdef(mat.data) : isposdef(mat)
 func_diagonal = mat -> @test isposdef(mat)
 types = [ (Shape.General, matrix_sq_sizes,
             func_general)

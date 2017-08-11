@@ -79,6 +79,12 @@ function random{T <: ValuesType}(rows, cols, shape::Shape.Symmetric, properties,
     throw(ErrorException("Non-square matrix passed to a symmetric generator!"))
   end
   mat = random(rows, rows, Shape.General(), properties, valTypes)
+  # overwrite values to ensure that matrix is symmetric after using unwrap
+  for i = 1:rows
+    for j = 1:(rows - 1)
+      mat[i, j] = mat[j, i]
+    end
+  end
   return Symmetric(mat)
 end
 

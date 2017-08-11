@@ -25,7 +25,7 @@ function verify(rows, cols, shape::Shape.Symmetric, mat, func,
     func_gen = Nullable())
 
   @test isa(mat, Symmetric)
-  for mat_ in [mat]#, Shape.unwrap(mat)]
+  for mat_ in [mat, Shape.unwrap(mat)]
     @test size(mat_, 1) == rows
     @test size(mat_, 2) == cols
     if !isnull(func)
@@ -42,30 +42,34 @@ end
 function verify(rows, cols, shape::Shape.UpperTriangular, mat, func,
     func_gen = Nullable())
 
-  @test size(mat, 1) == rows
-  @test size(mat, 2) == cols
-
   if rows == cols
     @test isa(mat, UpperTriangular)
-    @test istriu(mat)
-  else
-    for i=2:rows
-      for j=1:min(i-1, cols)
-        @test mat[i, j] ≈ 0.0
-      end
-    end
   end
+  for mat_ in [mat, Shape.unwrap(mat)]
+    @test size(mat_, 1) == rows
+    @test size(mat_, 2) == cols
 
-  if !isnull(func)
-    func_ = get(func)
-    for i=1:rows
-      for j=i:min(rows, cols)
-        func_( mat[i, j] )
+    if rows == cols
+      @test istriu(mat_)
+    else
+      for i=2:rows
+        for j=1:min(i-1, cols)
+          @test mat_[i, j] ≈ 0.0
+        end
       end
     end
-  end
-  if !isnull(func_gen)
-    get(func_gen)(mat)
+
+    if !isnull(func)
+      func_ = get(func)
+      for i=1:rows
+        for j=i:min(rows, cols)
+          func_( mat_[i, j] )
+        end
+      end
+    end
+    if !isnull(func_gen)
+      get(func_gen)(mat_)
+    end
   end
 
 end
@@ -73,30 +77,33 @@ end
 function verify(rows, cols, shape::Shape.LowerTriangular, mat, func,
     func_gen = Nullable())
 
-  @test size(mat, 1) == rows
-  @test size(mat, 2) == cols
-
-
   if rows == cols
     @test isa(mat, LowerTriangular)
-    @test istril(mat)
-  else
-    for i=1:rows
-      for j=min(i, cols)+1:cols
-        @test mat[i, j] ≈ 0.0
+  end
+  for mat_ in [mat, Shape.unwrap(mat)]
+    @test size(mat_, 1) == rows
+    @test size(mat_, 2) == cols
+
+    if rows == cols
+      @test istril(mat_)
+    else
+      for i=1:rows
+        for j=min(i, cols)+1:cols
+          @test mat_[i, j] ≈ 0.0
+        end
       end
     end
-  end
-  if !isnull(func)
-    func_ = get(func)
-    for i=1:rows
-      for j=1:min(i, cols)
-        func_( mat[i, j] )
+    if !isnull(func)
+      func_ = get(func)
+      for i=1:rows
+        for j=1:min(i, cols)
+          func_( mat_[i, j] )
+        end
       end
     end
-  end
-  if !isnull(func_gen)
-    get(func_gen)(mat)
+    if !isnull(func_gen)
+      get(func_gen)(mat_)
+    end
   end
 
 end
@@ -121,6 +128,16 @@ function verify(rows, cols, shape::Shape.Diagonal, mat, func,
     get(func_gen)(mat)
   end
 
+  # unwrapped iff type is Diagonal
+  if rows == cols
+    mat_ = Shape.unwrap(mat)
+    if !isnull(func)
+      func_ = get(func)
+      for i=1:min(rows, cols)
+        func_( mat_[i] )
+      end
+    end
+  end
 end
 
 function verify(rows, cols, shape::Shape.Band, mat, func,
