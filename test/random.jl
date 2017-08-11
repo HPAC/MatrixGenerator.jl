@@ -1,5 +1,5 @@
 using Base.Test
-using Generator
+using MatrixGenerator
 
 
 matrix_sizes = [ [1, 1], [2, 2], [3, 1], [1, 3], [25, 50], [50, 25] ]

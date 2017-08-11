@@ -9,7 +9,7 @@ module MatrixGenerator
   include("TypeMatcher.jl")
   #import shape types
   using .Shape
-  #export General, ShapeType
+  #export unwrap
   export Shape
 
   using .Properties

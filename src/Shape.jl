@@ -3,7 +3,7 @@ import Base.==
 
 module Shape
 
-  export ShapeType, General
+  export unwrap, ShapeType
 
   abstract ShapeType
 
@@ -25,6 +25,26 @@ module Shape
   type Band <: ShapeType
     lower_bandwidth::Int
     upper_bandwidth::Int
+  end
+
+  function unwrap(input::Base.LinAlg.LowerTriangular)
+      return input.data
+  end
+
+  function unwrap(input::Base.LinAlg.UpperTriangular)
+      return input.data
+  end
+
+  function unwrap(input::Base.LinAlg.Diagonal)
+      return input.data
+  end
+
+  function unwrap(input::Base.LinAlg.Symmetric)
+      return input.data
+  end
+
+  function unwrap(input::Array)
+      return input
   end
 
 end

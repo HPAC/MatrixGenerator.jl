@@ -180,7 +180,7 @@ function apply_band(shape::Shape.LowerTriangular, original_shape, rows, cols, ma
   return matrix
 end
 
-# Triangular, Diagonal - don't do anything
+# Diagonal - don't do anything
 function apply_band(shape, original_shape, rows, cols, matrix)
   return matrix
 end

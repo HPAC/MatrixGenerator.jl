@@ -25,14 +25,16 @@ function verify(rows, cols, shape::Shape.Symmetric, mat, func,
     func_gen = Nullable())
 
   @test isa(mat, Symmetric)
-  @test size(mat, 1) == rows
-  @test size(mat, 2) == cols
-  if !isnull(func)
-    foreach(get(func), mat)
-  end
-  @test issymmetric(mat)
-  if !isnull(func_gen)
-    get(func_gen)(mat)
+  for mat_ in [mat]#, Shape.unwrap(mat)]
+    @test size(mat_, 1) == rows
+    @test size(mat_, 2) == cols
+    if !isnull(func)
+      foreach(get(func), mat_)
+    end
+    @test issymmetric(mat_)
+    if !isnull(func_gen)
+      get(func_gen)(mat_)
+    end
   end
 
 end

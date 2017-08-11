@@ -1,5 +1,5 @@
 using Base.Test
-using Generator
+using MatrixGenerator
 
 other_properties = Set()
 push!(other_properties, [])
@@ -53,7 +53,7 @@ push!(shape_types, ([5, 5], [Shape.Diagonal, Shape.Band(4, 3), Shape.Band(2, 3)]
 for shape in shape_types
 
   for properties in other_properties
-    ret = Generator.get_shape_type( shape[1], vcat(shape[2], properties) )
+    ret = MatrixGenerator.get_shape_type( shape[1], vcat(shape[2], properties) )
     # TEST: correct returned shape
     @test shape[3][2] == ret[1]
     # TEST: symmetry'
