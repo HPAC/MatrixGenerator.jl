@@ -36,7 +36,7 @@ module Shape
   end
 
   function unwrap(input::Base.LinAlg.Diagonal)
-      return input.data
+      return input.diag
   end
 
   function unwrap(input::Base.LinAlg.Symmetric)

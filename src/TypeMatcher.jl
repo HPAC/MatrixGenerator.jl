@@ -186,28 +186,32 @@ function apply_band(shape, original_shape, rows, cols, matrix)
 end
 
 function apply_upper_triangular(rows, cols, matrix)
-  if rows == cols
-    return UpperTriangular(matrix)
-  end
+
   # remove lower triangular part
   for i=1:rows
     for j=1:min(i-1, cols)
       matrix[i, j] = 0.0
     end
   end
-  return matrix
+  if rows == cols
+    return UpperTriangular(matrix)
+  else
+    return matrix
+  end
+
 end
 
 function apply_lower_triangular(rows, cols, matrix)
-  if rows == cols
-    return LowerTriangular(matrix)
-  end
   for i=1:rows
     for j=i+1:cols
       matrix[i, j] = 0.0
     end
   end
-  return matrix
+  if rows == cols
+    return LowerTriangular(matrix)
+  else
+    return matrix
+  end
 end
 
 function apply_diagonal(rows, cols, matrix)
