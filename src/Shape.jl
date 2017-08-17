@@ -5,7 +5,7 @@ module Shape
 
   export unwrap, ShapeType
 
-  abstract ShapeType
+  abstract type ShapeType end
 
   immutable General <: ShapeType
   end
