@@ -13,8 +13,8 @@ module Plotter
     * labels - labels for additional user-defined columns. default value: empty
     * delimiter - default value: tab
     """
-    function Plot(name::String, labels::Array{String, 1} = Array{String, 1}(),
-        delimiter::Char = '\t')
+    function Plot{T}(name::String, labels::Array{String, 1} = Array{String, 1}(),
+        delimiter::Char = '\t') where T
       f = open(name, "w");
       full_labels = ["Time" "StdDev" "Min" "Max"];
       if !isempty(labels)
@@ -39,7 +39,7 @@ module Plotter
   """
   function add_data{T, P}(p::Plot{T}, data::Array{P, 1}, timings::Results)
     t = [timings.average_time timings.std_dev timings.min_time timings.max_time];
-    data_to_write = [data' t];
+    data_to_write = [reshape(data, (1, :)) t];
     writedlm(p.file, data_to_write, p.delimiter);
   end
 

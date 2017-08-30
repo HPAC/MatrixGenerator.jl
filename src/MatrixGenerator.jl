@@ -4,6 +4,9 @@ module MatrixGenerator
   export GeneratorImpl
   export generate
 
+  include("benchmarker/Benchmarker.jl")
+  export Benchmarker
+
   include("Shape.jl")
   include("Properties.jl")
   include("TypeMatcher.jl")
