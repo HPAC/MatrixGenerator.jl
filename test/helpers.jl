@@ -134,8 +134,9 @@ function verify(rows, cols, shape::Shape.Diagonal, mat, func,
     if !isnull(func)
       func_ = get(func)
       for i=1:min(rows, cols)
-        func_( mat_[i] )
+        func_( mat_[i, i] )
       end
+      @test isdiag(mat_)
     end
   end
 end
