@@ -23,13 +23,14 @@ module Benchmarker
 		timings = Array{Float64}(iters);
 		# Compile f and time functions
 		tic();
-		f(args...);
+		f(map(copy, args)...);
 		toq();
 
 		local total_time::Float64 = 0.0;
 		for i=1:iters
+            copy_args = map(copy, args);
 			tic();
-			f(args...);
+			f(copy_args...);
 			total_time = toq();
 			timings[i] = total_time;
 		end
