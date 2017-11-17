@@ -67,7 +67,9 @@ module MatrixGenerator
     mat = generator.generic_generators[extract_type(major_prop)](
         (special_shape, shape, symmetric, size...), other_properties, val_types
       )
-    if size[2] == 1
+    if size[1] == 1 && size[2] == 1
+        return mat[1][1]
+    elseif size[2] == 1
       return vec(mat)
     elseif size[1] == 1
       return vec(mat)'
