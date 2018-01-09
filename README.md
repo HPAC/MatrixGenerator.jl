@@ -19,5 +19,6 @@ generate([3, 3], [Shape.Symmetric, Properties.Random(-5, 5)])
 # creates 5x2 upper triangular constant matrix
 generate([5, 2], [Shape.UpperTriangular, Properties.Constant(3.0)])
 # 4x4 diagonal and symmetric positive-definite matrix
+generate([4,4], [Shape.UpperTriangular, Shape.General, Shape.Diagonal, Properties.SPD])
 
 ```
