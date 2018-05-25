@@ -1,5 +1,5 @@
 # MatrixGenerator.jl
-[![Build Status](https://travis-ci.org/HPAC/MatrixGenerator.jl.svg?branch=master)](https://travis-ci.org/mcopik/MatrixGenerator.jl)
+[![Build Status](https://travis-ci.org/HPAC/MatrixGenerator.jl.svg?branch=master)](https://travis-ci.org/HPAC/MatrixGenerator.jl)
 
 Julia package supporting benchmarking of functions with automatic export of measurement data to a CSV file and generation of matrices with desired shapes and properties. Requires Julia in version 0.6 or newer. 
 
