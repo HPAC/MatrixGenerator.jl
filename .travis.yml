@@ -3,6 +3,7 @@ julia:
     # RowVector is not supported in Julia 0.5
     #    - 0.5
     - 0.6
+    - 0.7
 
 #Use default script
 script:
