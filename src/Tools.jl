@@ -1,12 +1,11 @@
 module Tools
 
   import Base.==
+  include("Shape.jl")
 
   export unwrap, ==
 
   using LinearAlgebra
-
-  include("Shape.jl")
   using .Shape: Band
 
   function unwrap(input::LinearAlgebra.LowerTriangular)
