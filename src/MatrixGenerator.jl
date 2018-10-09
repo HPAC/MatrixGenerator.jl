@@ -1,29 +1,24 @@
-
 module MatrixGenerator
-
-  export GeneratorImpl
-  export generate
-
-  include("benchmarker/Benchmarker.jl")
-  export Benchmarker
 
   include("Shape.jl")
   include("Properties.jl")
   include("TypeMatcher.jl")
-  #import shape types
-  using .Shape
-  #export unwrap
-  export Shape
-
-  using .Properties
-  export Properties
-
   include("generators/Random.jl")
   include("generators/Constant.jl")
   include("generators/SPD.jl")
   include("generators/Orthogonal.jl")
+  include("benchmarker/Benchmarker.jl")
 
-  type GeneratorImpl
+  export Shape
+  export generate
+  export Properties
+  export Benchmarker
+  export GeneratorImpl
+
+  using .Shape
+  using .Properties
+
+  mutable struct GeneratorImpl
 
     generators::Dict
     generic_generators::Dict
