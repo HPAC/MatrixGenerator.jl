@@ -14,7 +14,7 @@ function define_spd(functions, generic_functions)
     (shape, val_types, props) -> spd(shape, val_types, props)
 end
 
-function spd{T}(packed_shape::Tuple{T, Shape.Band, Bool, Int, Int}, properties, valTypes)
+function spd(packed_shape::Tuple{T, Shape.Band, Bool, Int, Int}, properties, valTypes) where T
 
   special_shape, shape, symmetric, rows, cols = packed_shape
   if (special_shape == Shape.General || special_shape == Shape.Symmetric) &&

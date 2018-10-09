@@ -17,7 +17,7 @@ function define_orthogonal(functions, generic_functions)
     (shape, val_types, props) -> orthogonal(shape, val_types, props)
 end
 
-function orthogonal{T}(packed_shape::Tuple{T, Shape.Band, Bool, Int, Int}, properties, valTypes)
+function orthogonal(packed_shape::Tuple{T, Shape.Band, Bool, Int, Int}, properties, valTypes) where T
 
   special_shape, shape, symmetric, rows, cols = packed_shape
   # verify if we can use one of easy generators

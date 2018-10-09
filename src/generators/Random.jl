@@ -1,7 +1,5 @@
-
 using .Shape;
 using .Properties;
-
 # import to extend with a set support
 #import Base.findfirst
 
@@ -46,35 +44,32 @@ function get_bounds(properties, valTypes)
   end
 end
 
-function random{T, U <: ValuesType}(packed_shape::Tuple{T, Shape.Band, Bool, Int, Int}, properties, valTypes::U)
+function random(packed_shape::Tuple{T, Shape.Band, Bool, Int, Int}, properties, valTypes::U) where T <: ValuesType where U <: ValuesType
   special_shape, shape, symmetric, rows, cols = packed_shape
   mat = random(rows, cols, special_shape, properties, valTypes)
   # apply band to remove unnecessary elems
   return apply_band(special_shape, shape, rows, cols, mat)
 end
 
-function random{T <: ValuesType}(rows, cols, shape::Shape.General, properties, valTypes::T)
+function random(rows, cols, shape::Shape.General, properties, valTypes::T) where T <: ValuesType
   low, high = get_bounds(properties, valTypes)
   if valTypes == none
     return rand(rows, cols) * (high - low) + low
   elseif valTypes == positive
     if low < 0
-      throw(ErrorException(
-        @sprintf("Clash between lower bound %f of Random and Positive!", low)
-        ))
+      throw(ErrorException("Clash between lower bound $low of Random and Positive!"))
     end
     return rand(rows, cols) * (high - low) + low
   else
     if high > 0
-      throw(ErrorException(
-        @sprintf("Clash between upper bound %f of Random and Negative!", high)
-        ))
+      throw(ErrorException("Clash between upper bound $high of Random and Negative!"))
     end
     return rand(rows, cols) * (high - low) + low
   end
 end
 
-function random{T <: ValuesType}(rows, cols, shape::Shape.Symmetric, properties, valTypes::T)
+function random(rows, cols, shape::Shape.Symmetric, properties, valTypes::T) where T <: ValuesType
+
   if rows != cols
     throw(ErrorException("Non-square matrix passed to a symmetric generator!"))
   end
@@ -88,19 +83,22 @@ function random{T <: ValuesType}(rows, cols, shape::Shape.Symmetric, properties,
   return Symmetric(mat)
 end
 
-function random{T <: ValuesType}(rows, cols, shape::Shape.UpperTriangular, properties, valTypes::T)
+function random(rows, cols, shape::Shape.UpperTriangular, properties, valTypes::T) where T <: ValuesType
+
   # fill whole matrix, one part will be ignored
   mat = random(rows, cols, Shape.General(), properties, valTypes)
   return apply_upper_triangular(rows, cols, mat)
 end
 
-function random{T <: ValuesType}(rows, cols, shape::Shape.LowerTriangular, properties, valTypes::T)
+function random(rows, cols, shape::Shape.LowerTriangular, properties, valTypes::T) where T <: ValuesType
+
   # fill whole matrix, one part will be ignored
   mat = random(rows, cols, Shape.General(), properties, valTypes)
   return apply_lower_triangular(rows, cols, mat)
 end
 
-function random{T <: ValuesType}(rows, cols, shape::Shape.Diagonal, properties, valTypes::T)
+function random(rows, cols, shape::Shape.Diagonal, properties, valTypes::T) where T <: ValuesType
+
   # fill one row
   mat = random(1, min(rows, cols), Shape.General(), properties, valTypes)
   return apply_diagonal(rows, cols, mat)
