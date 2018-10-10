@@ -24,23 +24,23 @@ module MatrixGenerator
     generic_generators::Dict
 
     function GeneratorImpl()
-      a = Dict{Set{DataType}, Any}();
-      generic_gen = Dict{DataType, Any}();
-      define_random(a, generic_gen);
-      define_constant(a, generic_gen);
-      define_spd(a, generic_gen);
-      define_orthogonal(a, generic_gen);
+      a = Dict{Set{DataType}, Any}()
+      generic_gen = Dict{DataType, Any}()
+      define_random(a, generic_gen)
+      define_constant(a, generic_gen)
+      define_spd(a, generic_gen)
+      define_orthogonal(a, generic_gen)
       return new(a, generic_gen)
     end
-
   end
+
   const generator = GeneratorImpl()
 
   function extract_type(obj)
     return isa(obj, DataType) ? obj : typeof(obj)
   end
 
-  function generate{T <: ShapeType}(size, shape::T, properties)
+  function generate(size, shape::T, properties) where T <: ShapeType
     mat = generator.generators[map(extract_type, properties)](size, shape, properties)
     if isa(shape, Shape.General)
       if size[2] == 1
