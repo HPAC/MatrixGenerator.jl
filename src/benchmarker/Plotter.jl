@@ -1,9 +1,9 @@
 
 module Plotter
 
-  using ..Results;
+  include("Results.jl")
 
-  type Plot{T}
+  mutable struct Plot{T}
     file::IOStream;
     delimiter::Char;
 
@@ -13,7 +13,7 @@ module Plotter
     * labels - labels for additional user-defined columns. default value: empty
     * delimiter - default value: tab
     """
-    function Plot{T}(name::String, labels::Array{String, 1} = Array{String, 1}(),
+    function Plot(name::String, labels::Array{String, 1} = Array{String, 1}(),
         delimiter::Char = '\t') where T
       f = open(name, "w");
       full_labels = ["Time" "StdDev" "Min" "Max"];
@@ -29,7 +29,7 @@ module Plotter
   """
     Add another timings to data file
   """
-  function add_data{T}(p::Plot{T}, timings::Results)
+  function add_data(p::Plot{T}, timings::Results) where T
     t = [timings.average_time timings.std_dev timings.min_time timings.max_time];
     writedlm(p.file, t, p.delimiter);
   end
@@ -37,13 +37,13 @@ module Plotter
   """
     Add a timings preceded by additonal user-defined columns
   """
-  function add_data{T, P}(p::Plot{T}, data::Array{P, 1}, timings::Results)
+  function add_data(p::Plot{T}, data::Array{P, 1}, timings::Results) where T where P
     t = [timings.average_time timings.std_dev timings.min_time timings.max_time];
     data_to_write = [reshape(data, (1, :)) t];
     writedlm(p.file, data_to_write, p.delimiter);
   end
 
-  function finish{T}(p::Plot{T})
+  function finish(p::Plot{T}) where T
     close(p.file);
   end
 
