@@ -1,5 +1,5 @@
-using .Shape;
-using .Properties;
+using .Shape
+using .Properties
 # import to extend with a set support
 #import Base.findfirst
 
@@ -44,7 +44,7 @@ function get_bounds(properties, valTypes)
   end
 end
 
-function random(packed_shape::Tuple{T, Shape.Band, Bool, Int, Int}, properties, valTypes::U) where T <: ValuesType where U <: ValuesType
+function random(packed_shape::Tuple{T, Shape.Band, Bool, Int, Int}, properties, valTypes::U) where T where U <: ValuesType
   special_shape, shape, symmetric, rows, cols = packed_shape
   mat = random(rows, cols, special_shape, properties, valTypes)
   # apply band to remove unnecessary elems
@@ -54,17 +54,17 @@ end
 function random(rows, cols, shape::Shape.General, properties, valTypes::T) where T <: ValuesType
   low, high = get_bounds(properties, valTypes)
   if valTypes == none
-    return rand(rows, cols) * (high - low) + low
+    return rand(rows, cols) * (high - low) .+ low
   elseif valTypes == positive
     if low < 0
       throw(ErrorException("Clash between lower bound $low of Random and Positive!"))
     end
-    return rand(rows, cols) * (high - low) + low
+    return rand(rows, cols) * (high - low) .+ low
   else
     if high > 0
       throw(ErrorException("Clash between upper bound $high of Random and Negative!"))
     end
-    return rand(rows, cols) * (high - low) + low
+    return rand(rows, cols) * (high - low) .+ low
   end
 end
 
