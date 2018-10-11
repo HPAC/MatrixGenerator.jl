@@ -63,7 +63,7 @@ function spd(rows, cols, shape::Shape.Symmetric, properties, _positive::Bool)
   end
   # Avoid very low determinant
   #@printf("%f %f %f %f\n", mat(1, 1), mat(1, 2), mat(2, 1), mat(2,2))
-  mat = mat + eye(rows)*rows
+  mat = mat + Matrix{Float64}(I, rows, rows) * rows
   return Symmetric(mat' * mat)
 
 end
