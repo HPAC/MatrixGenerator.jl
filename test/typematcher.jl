@@ -1,5 +1,4 @@
-using Base.Test
-using MatrixGenerator
+using Test
 
 other_properties = Set()
 push!(other_properties, [])
