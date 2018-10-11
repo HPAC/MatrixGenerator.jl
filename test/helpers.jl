@@ -1,4 +1,3 @@
-
 function verify(rows, cols, shape::Shape.General, mat, func,
     func_gen = Nullable())
 

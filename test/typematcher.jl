@@ -1,5 +1,3 @@
-using Test
-
 other_properties = Set()
 push!(other_properties, [])
 push!(other_properties, [Properties.Constant])

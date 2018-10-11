@@ -1,7 +1,3 @@
-using Test
-using Nullables
-
-
 matrix_sizes = [ [1, 1], [2, 2], [3, 1], [1, 3], [25, 50], [50, 25] ]
 matrix_sq_sizes = [ [1, 1], [2, 2], [33, 33], [49, 49] ]
 properties = Dict()
