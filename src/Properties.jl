@@ -1,6 +1,6 @@
 module Properties
 
-  export Random, Constant, Positive, Negative, Symmetric, SPD, Orthogonal
+  #export Random, Constant, Positive, Negative, Symmetric, SPD, Orthogonal
 
   struct Random
     lower_bound::Float64

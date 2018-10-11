@@ -1,6 +1,6 @@
 module Shape
 
-  export ShapeType, LowerTriangular
+  export ShapeType
 
   abstract type ShapeType end
 
