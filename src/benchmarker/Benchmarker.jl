@@ -20,19 +20,16 @@ module Benchmarker
 
 	function measure(iters, f, args...)
 
-		timings = Array{Float64}(iters);
-		# Compile f and time functions
-		tic();
-		f(map(copy, args)...);
-		toq();
+		timings = Array{Float64}(undef, iters);
 
-		local total_time::Float64 = 0.0;
+		# Compile f and time functions
+		@elapsed f(map(copy, args)...);
+
+		local elapsed_time::Float64 = 0.0;
 		for i=1:iters
             copy_args = map(copy, args);
-			tic();
-			f(copy_args...);
-			total_time = toq();
-			timings[i] = total_time;
+			elapsed_time = @elapsed f(copy_args...);
+			timings[i] = elapsed_time;
 		end
 		return Results(iters, timings);
 
@@ -41,18 +38,15 @@ module Benchmarker
 	macro time(ex)
 
 		quote
-			timings = Array{Float64}(100);
-			# Compile f and time functions
-			tic();
-			$(esc(ex));
-			toq();
+			timings = Array{Float64}(undef, 100);
 
-			local total_time::Float64 = 0.0;
+			# Compile f and time functions
+			@elapsed $(esc(ex));
+
+			local elapsed_time::Float64 = 0.0;
 			for i=1:100
-				tic();
-				$(esc(ex));
-				total_time = toq();
-				timings[i] = total_time;
+				elapsed_time = @elapsed $(esc(ex));
+				timings[i] = elapsed_time;
 			end
 			Results(100, timings);
 		end
