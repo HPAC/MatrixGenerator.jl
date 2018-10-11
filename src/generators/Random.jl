@@ -6,11 +6,11 @@ using .Properties
 function define_random(functions, generic_functions)
 
   functions[ Set([Properties.Random]) ] =
-    (size, shape, props) -> random(size..., shape, props, none);
+    (size, shape, props) -> random(size..., shape, props, none)
   functions[ Set([Properties.Random, Properties.Positive])] =
-    (size, shape, props) -> random(size..., shape, props, positive);
+    (size, shape, props) -> random(size..., shape, props, positive)
   functions[ Set([Properties.Random, Properties.Negative])] =
-    (size, shape, props) -> random(size..., shape, props, negative);
+    (size, shape, props) -> random(size..., shape, props, negative)
 
   generic_functions[Properties.Random] =
     (shape, val_types, props) -> random(shape, val_types, props)

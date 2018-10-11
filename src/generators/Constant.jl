@@ -1,11 +1,10 @@
-
-using .Shape;
-using .Properties;
+using .Shape
+using .Properties
 
 function define_constant(functions, generic_functions)
 
   functions[ Set([Properties.Constant]) ] =
-    (size, shape, props) -> constant(size..., shape, props);
+    (size, shape, props) -> constant(size..., shape, props)
 
   generic_functions[Properties.Constant] =
     (shape, val_types, props) -> constant(shape, val_types, props)

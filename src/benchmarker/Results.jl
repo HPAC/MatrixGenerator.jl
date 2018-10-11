@@ -10,11 +10,11 @@ struct Results
 
   function Results(n::Int, timings::Array{Float64, 1})
 
-    samples = n;
-    average_time = mean(timings);
-    std_dev = stdm(timings, average_time);
-    min_time = minimum(timings);
-    max_time = maximum(timings);
+    samples = n
+    average_time = mean(timings)
+    std_dev = stdm(timings, average_time)
+    min_time = minimum(timings)
+    max_time = maximum(timings)
 
     new(samples, average_time, std_dev, min_time, max_time)
   end

@@ -1,17 +1,16 @@
-
-using .Shape;
-using .Properties;
+using .Shape
+using .Properties
 
 function define_orthogonal(functions, generic_functions)
 
   functions[ Set([Properties.Orthogonal]) ] =
-    (size, shape, props) -> orthogonal(size..., shape, props, none);
+    (size, shape, props) -> orthogonal(size..., shape, props, none)
 
   functions[ Set([Properties.Orthogonal, Properties.Positive]) ] =
-    (size, shape, props) -> orthogonal(size..., shape, props, positive);
+    (size, shape, props) -> orthogonal(size..., shape, props, positive)
 
   functions[ Set([Properties.Orthogonal, Properties.Negative]) ] =
-    (size, shape, props) -> orthogonal(size..., shape, props, negative);
+    (size, shape, props) -> orthogonal(size..., shape, props, negative)
 
   generic_functions[Properties.Orthogonal] =
     (shape, val_types, props) -> orthogonal(shape, val_types, props)

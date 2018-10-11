@@ -1,5 +1,10 @@
 module MatrixGenerator
 
+  export Shape
+  export generate
+  export Properties
+  export Benchmarker
+
   include("Shape.jl")
   include("Properties.jl")
   include("TypeMatcher.jl")
@@ -8,12 +13,6 @@ module MatrixGenerator
   include("generators/SPD.jl")
   include("generators/Orthogonal.jl")
   include("benchmarker/Benchmarker.jl")
-
-  export Shape
-  export generate
-  export Properties
-  export Benchmarker
-  export GeneratorImpl
 
   using .Shape
   using .Properties
@@ -72,5 +71,4 @@ module MatrixGenerator
       return mat
     end
   end
-
 end

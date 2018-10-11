@@ -32,7 +32,6 @@ module Tools
       return input
   end
 
-  
   function ==(a::Shape.Band, b::Shape.Band)
     return a.lower_bandwidth == b.lower_bandwidth &&
       a.upper_bandwidth == b.upper_bandwidth
