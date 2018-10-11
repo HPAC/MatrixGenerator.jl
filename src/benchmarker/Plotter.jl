@@ -1,5 +1,4 @@
 using DelimitedFiles
-include("Results.jl")
 
 mutable struct Plot
 
