@@ -21,7 +21,7 @@ struct Results
 
 end
 
-function Base.show(io::IO, r::Results)
+function show(io::IO, r::Results)
 
   println("Benchmarking results")
   println("Function repeated: $(r.samples) times")

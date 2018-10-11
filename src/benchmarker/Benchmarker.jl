@@ -12,7 +12,7 @@
 
 module Benchmarker
 
-	export measure
+	export measure, show
 
 	include("Results.jl")
 	include("Plotter.jl")

@@ -2,6 +2,7 @@ module MatrixGenerator
 
   export Shape
   export generate
+  export unwrap
   export Properties
   export Benchmarker
 
