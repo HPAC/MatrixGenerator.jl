@@ -1,4 +1,5 @@
 using Test
+using MatrixGenerator
 
 include("helpers.jl")
 include("band_types.jl")
