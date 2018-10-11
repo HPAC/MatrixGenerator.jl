@@ -1,9 +1,7 @@
-
-module Plotter
-
+  using DelimitedFiles
   include("Results.jl")
 
-  mutable struct Plot{T}
+  mutable struct Plot
     file::IOStream;
     delimiter::Char;
 
@@ -21,7 +19,7 @@ module Plotter
         full_labels = hcat( permutedims(hcat(labels), [2, 1]), full_labels);
       end
       writedlm(f, full_labels, delimiter);
-      return new{T}(f, delimiter);
+      return new(f, delimiter);
     end
 
   end
@@ -29,7 +27,7 @@ module Plotter
   """
     Add another timings to data file
   """
-  function add_data(p::Plot{T}, timings::Results) where T
+  function add_data(p::Plot, timings::Results)
     t = [timings.average_time timings.std_dev timings.min_time timings.max_time];
     writedlm(p.file, t, p.delimiter);
   end
@@ -37,14 +35,12 @@ module Plotter
   """
     Add a timings preceded by additonal user-defined columns
   """
-  function add_data(p::Plot{T}, data::Array{P, 1}, timings::Results) where T where P
+  function add_data(p::Plot, data::Array{P, 1}, timings::Results) where P
     t = [timings.average_time timings.std_dev timings.min_time timings.max_time];
     data_to_write = [reshape(data, (1, :)) t];
     writedlm(p.file, data_to_write, p.delimiter);
   end
 
-  function finish(p::Plot{T}) where T
+  function finish(p::Plot)
     close(p.file);
   end
-
-end
