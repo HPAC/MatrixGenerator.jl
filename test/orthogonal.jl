@@ -22,7 +22,8 @@ properties[ [Properties.Orthogonal, Properties.Negative] ] = Nullable(x -> @test
 
 # For orthogonal matrices A^-1 = A'
 # Thus A * A' = I
-verification_function = (x) -> @test isapprox(x*x', eye(size(x, 1)))
+# if statement added for the 1x1 matrix (whose size returns only 1 value)
+verification_function = (x) -> @test isapprox(x*x', Matrix{Float64}(I, typeof(x) == Array{Float64, 1} ? (1,1) : size(x)))
 
 # Only diagonal has supports full set of properties
 types = [ (Shape.General(), Dict([Properties.Orthogonal] => Nullable()), matrix_sq_sizes),
