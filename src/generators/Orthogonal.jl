@@ -50,9 +50,12 @@ function orthogonal(rows, cols, shape::Shape.General, properties, type_::ValuesT
     throw(ErrorException("A non-square matrix cannot be orthogonal!"))
   else
     q, = qr( rand(rows, rows) )
-    return q
+    if rows == 1 && cols == 1
+      return vec(hcat(q))
+    else
+      return hcat(q)
+    end
   end
-
 end
 
 """
