@@ -16,10 +16,8 @@ properties[ [Properties.Random(-8.5, -7), Properties.Negative] ] = Nullable(x ->
 
 #Incorrect properties
 @test_throws ErrorException [Properties.Random(0.3, 0)]
-@test_throws ErrorException generate((1, 1), Shape.General(),
-  Set([Properties.Random(-1.5, 1), Properties.Positive]))
-@test_throws ErrorException generate((1, 1), Shape.General(),
-  Set([Properties.Random(-0.5, 2), Properties.Negative]))
+@test_throws ErrorException generate((1, 1), Shape.General(), Set([Properties.Random(-1.5, 1), Properties.Positive]))
+@test_throws ErrorException generate((1, 1), Shape.General(), Set([Properties.Random(-0.5, 2), Properties.Negative]))
 
 types = [ (Shape.General(), matrix_sizes)
           (Shape.Symmetric(), matrix_sq_sizes)

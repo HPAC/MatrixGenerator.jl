@@ -1,5 +1,4 @@
-function verify(rows, cols, shape::Shape.General, mat, func,
-    func_gen = Nullable())
+function verify(rows, cols, shape::Shape.General, mat, func, func_gen = Nullable())
 
   if cols == 1
     @test isa(mat, Array{Float64, 1})
@@ -20,8 +19,7 @@ function verify(rows, cols, shape::Shape.General, mat, func,
 
 end
 
-function verify(rows, cols, shape::Shape.Symmetric, mat, func,
-    func_gen = Nullable())
+function verify(rows, cols, shape::Shape.Symmetric, mat, func, func_gen = Nullable())
 
   @test isa(mat, Symmetric)
   for mat_ in [mat, unwrap(mat)]
@@ -38,8 +36,7 @@ function verify(rows, cols, shape::Shape.Symmetric, mat, func,
 
 end
 
-function verify(rows, cols, shape::Shape.UpperTriangular, mat, func,
-    func_gen = Nullable())
+function verify(rows, cols, shape::Shape.UpperTriangular, mat, func, func_gen = Nullable())
 
   if rows == cols
     @test isa(mat, UpperTriangular)
@@ -73,8 +70,7 @@ function verify(rows, cols, shape::Shape.UpperTriangular, mat, func,
 
 end
 
-function verify(rows, cols, shape::Shape.LowerTriangular, mat, func,
-    func_gen = Nullable())
+function verify(rows, cols, shape::Shape.LowerTriangular, mat, func, func_gen = Nullable())
 
   if rows == cols
     @test isa(mat, LowerTriangular)
@@ -107,8 +103,7 @@ function verify(rows, cols, shape::Shape.LowerTriangular, mat, func,
 
 end
 
-function verify(rows, cols, shape::Shape.Diagonal, mat, func,
-    func_gen = Nullable())
+function verify(rows, cols, shape::Shape.Diagonal, mat, func, func_gen = Nullable())
 
   if rows == cols
     @test isa(mat, Diagonal)
@@ -140,8 +135,7 @@ function verify(rows, cols, shape::Shape.Diagonal, mat, func,
   end
 end
 
-function verify(rows, cols, shape::Shape.Band, mat, func,
-    func_gen = Nullable())
+function verify(rows, cols, shape::Shape.Band, mat, func, func_gen = Nullable())
 
   @test size(mat, 1) == rows
   @test size(mat, 2) == cols
