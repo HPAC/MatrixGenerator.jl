@@ -11,6 +11,11 @@ function define_random(functions, generic_functions)
     (size, shape, props) -> random(size..., shape, props, positive)
   functions[ [Properties.Random, Properties.Negative] ] =
     (size, shape, props) -> random(size..., shape, props, negative)
+  functions[ [Properties.Positive, Properties.Random] ] =
+    (size, shape, props) -> random(size..., shape, props, positive)
+  functions[ [Properties.Negative, Properties.Random] ] =
+    (size, shape, props) -> random(size..., shape, props, negative)
+
 
   generic_functions[Properties.Random] =
     (shape, val_types, props) -> random(shape, val_types, props)

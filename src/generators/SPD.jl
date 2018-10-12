@@ -8,6 +8,8 @@ function define_spd(functions, generic_functions)
 
   functions[ [Properties.SPD, Properties.Positive] ] =
     (size, shape, props) -> spd(size..., shape, props, true)
+  functions[ [Properties.Positive, Properties.SPD] ] =
+    (size, shape, props) -> spd(size..., shape, props, true)
 
   generic_functions[Properties.SPD] =
     (shape, val_types, props) -> spd(shape, val_types, props)
