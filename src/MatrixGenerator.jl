@@ -8,6 +8,9 @@ module MatrixGenerator
 
   include("Shape.jl")
   include("Properties.jl")
+  using .Shape
+  using .Properties
+
   include("TypeMatcher.jl")
   include("generators/Random.jl")
   include("generators/Constant.jl")
@@ -15,8 +18,8 @@ module MatrixGenerator
   include("generators/Orthogonal.jl")
   include("benchmarker/Benchmarker.jl")
 
-  using .Shape
-  using .Properties
+  using LinearAlgebra
+  include("Tools.jl")
 
   mutable struct GeneratorImpl
 

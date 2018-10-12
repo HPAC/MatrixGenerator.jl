@@ -1,6 +1,8 @@
 module Shape
 
-  export ShapeType
+  export ShapeType, ==
+
+  import Base.==
 
   abstract type ShapeType end
 
@@ -19,5 +21,7 @@ module Shape
     upper_bandwidth::Int
   end
 
+  function ==(a::Shape.Band, b::Shape.Band)
+     return a.lower_bandwidth == b.lower_bandwidth && a.upper_bandwidth == b.upper_bandwidth
+   end
 end
-
