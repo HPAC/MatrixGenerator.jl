@@ -24,7 +24,7 @@ module MatrixGenerator
     generic_generators::Dict
 
     function GeneratorImpl()
-      a = Dict{Set{DataType}, Any}()
+      a = Dict{Array{DataType, 1}, Any}()
       generic_gen = Dict{DataType, Any}()
       define_random(a, generic_gen)
       define_constant(a, generic_gen)

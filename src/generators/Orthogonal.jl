@@ -3,13 +3,13 @@ using .Properties
 
 function define_orthogonal(functions, generic_functions)
 
-  functions[ Set([Properties.Orthogonal]) ] =
+  functions[ [Properties.Orthogonal] ] =
     (size, shape, props) -> orthogonal(size..., shape, props, none)
 
-  functions[ Set([Properties.Orthogonal, Properties.Positive]) ] =
+  functions[ [Properties.Orthogonal, Properties.Positive] ] =
     (size, shape, props) -> orthogonal(size..., shape, props, positive)
 
-  functions[ Set([Properties.Orthogonal, Properties.Negative]) ] =
+  functions[ [Properties.Orthogonal, Properties.Negative] ] =
     (size, shape, props) -> orthogonal(size..., shape, props, negative)
 
   generic_functions[Properties.Orthogonal] =

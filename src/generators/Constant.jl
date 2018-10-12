@@ -3,7 +3,7 @@ using .Properties
 
 function define_constant(functions, generic_functions)
 
-  functions[ Set([Properties.Constant]) ] =
+  functions[ [Properties.Constant] ] =
     (size, shape, props) -> constant(size..., shape, props)
 
   generic_functions[Properties.Constant] =

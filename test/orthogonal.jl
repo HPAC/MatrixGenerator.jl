@@ -32,7 +32,7 @@ types = [ (Shape.General(), Dict([Properties.Orthogonal] => Nullable()), matrix_
 for (datatype, props, matrix_sizes) in types
   for (prop, verificator) in props
     for cur_size in matrix_sizes
-      mat = generate([cur_size[1], cur_size[2]], datatype, Set(prop))
+      mat = generate([cur_size[1], cur_size[2]], datatype, prop)
       verify(cur_size[1], cur_size[2], datatype,
         mat, verificator, Nullable(verification_function))
     end

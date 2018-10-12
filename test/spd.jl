@@ -28,7 +28,7 @@ types = [ (Shape.General, matrix_sq_sizes,
 for (datatype, matrix_sizes, gen_func) in types
   for (prop, verificator) in properties
     for cur_size in matrix_sizes
-      mat = generate([cur_size[1], cur_size[2]], datatype(), Set(prop))
+      mat = generate([cur_size[1], cur_size[2]], datatype(), prop)
       verify(cur_size[1], cur_size[2], datatype(), mat, verificator, Nullable(gen_func))
     end
   end

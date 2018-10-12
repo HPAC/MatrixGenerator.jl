@@ -1,5 +1,6 @@
 using Test
 using Nullables
+using LinearAlgebra
 using MatrixGenerator
 
 include("helpers.jl")
