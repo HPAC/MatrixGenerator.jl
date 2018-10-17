@@ -1,7 +1,3 @@
-using Base.Test
-using MatrixGenerator
-
-
 matrix_sizes = [ [1, 1], [2, 2], [3, 1], [1, 3], [25, 50], [50, 25] ]
 matrix_sq_sizes = [ [1, 1], [2, 2], [33, 33], [49, 49] ]
 properties = Dict()
@@ -20,10 +16,8 @@ properties[ [Properties.Random(-8.5, -7), Properties.Negative] ] = Nullable(x ->
 
 #Incorrect properties
 @test_throws ErrorException [Properties.Random(0.3, 0)]
-@test_throws ErrorException generate((1, 1), Shape.General(),
-  Set([Properties.Random(-1.5, 1), Properties.Positive]))
-@test_throws ErrorException generate((1, 1), Shape.General(),
-  Set([Properties.Random(-0.5, 2), Properties.Negative]))
+@test_throws ErrorException generate((1, 1), Shape.General(), Set([Properties.Random(-1.5, 1), Properties.Positive]))
+@test_throws ErrorException generate((1, 1), Shape.General(), Set([Properties.Random(-0.5, 2), Properties.Negative]))
 
 types = [ (Shape.General(), matrix_sizes)
           (Shape.Symmetric(), matrix_sq_sizes)
@@ -35,7 +29,7 @@ types = [ (Shape.General(), matrix_sizes)
 for (datatype, matrix_sizes) in types
   for (prop, verificator) in properties
     for cur_size in matrix_sizes
-      mat = generate([cur_size[1], cur_size[2]], datatype, Set(prop))
+      mat = generate([cur_size[1], cur_size[2]], datatype, prop)
       verify(cur_size[1], cur_size[2], datatype, mat, verificator)
     end
   end

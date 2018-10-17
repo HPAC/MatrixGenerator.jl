@@ -1,23 +1,28 @@
-
-using .Shape;
-using .Properties;
+using .Shape
+using .Properties
 
 function define_orthogonal(functions, generic_functions)
 
-  functions[ Set([Properties.Orthogonal]) ] =
-    (size, shape, props) -> orthogonal(size..., shape, props, none);
+  functions[ [Properties.Orthogonal] ] =
+    (size, shape, props) -> orthogonal(size..., shape, props, none)
 
-  functions[ Set([Properties.Orthogonal, Properties.Positive]) ] =
-    (size, shape, props) -> orthogonal(size..., shape, props, positive);
+  functions[ [Properties.Orthogonal, Properties.Positive] ] =
+    (size, shape, props) -> orthogonal(size..., shape, props, positive)
 
-  functions[ Set([Properties.Orthogonal, Properties.Negative]) ] =
-    (size, shape, props) -> orthogonal(size..., shape, props, negative);
+  functions[ [Properties.Orthogonal, Properties.Negative] ] =
+    (size, shape, props) -> orthogonal(size..., shape, props, negative)
+
+  functions[ [Properties.Positive, Properties.Orthogonal] ] =
+    (size, shape, props) -> orthogonal(size..., shape, props, positive)
+
+  functions[ [Properties.Negative, Properties.Orthogonal] ] =
+    (size, shape, props) -> orthogonal(size..., shape, props, negative)
 
   generic_functions[Properties.Orthogonal] =
     (shape, val_types, props) -> orthogonal(shape, val_types, props)
 end
 
-function orthogonal{T}(packed_shape::Tuple{T, Shape.Band, Bool, Int, Int}, properties, valTypes)
+function orthogonal(packed_shape::Tuple{T, Shape.Band, Bool, Int, Int}, properties, valTypes) where T
 
   special_shape, shape, symmetric, rows, cols = packed_shape
   # verify if we can use one of easy generators
@@ -45,9 +50,12 @@ function orthogonal(rows, cols, shape::Shape.General, properties, type_::ValuesT
     throw(ErrorException("A non-square matrix cannot be orthogonal!"))
   else
     q, = qr( rand(rows, rows) )
-    return q
+    if rows == 1 && cols == 1
+      return vec(hcat(q))
+    else
+      return hcat(q)
+    end
   end
-
 end
 
 """

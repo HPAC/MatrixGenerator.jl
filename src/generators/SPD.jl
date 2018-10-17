@@ -1,20 +1,21 @@
-
-using .Shape;
-using .Properties;
+using .Shape
+using .Properties
 
 function define_spd(functions, generic_functions)
 
-  functions[ Set([Properties.SPD]) ] =
-    (size, shape, props) -> spd(size..., shape, props, false);
+  functions[ [Properties.SPD] ] =
+    (size, shape, props) -> spd(size..., shape, props, false)
 
-  functions[ Set([Properties.SPD, Properties.Positive]) ] =
-    (size, shape, props) -> spd(size..., shape, props, true);
+  functions[ [Properties.SPD, Properties.Positive] ] =
+    (size, shape, props) -> spd(size..., shape, props, true)
+  functions[ [Properties.Positive, Properties.SPD] ] =
+    (size, shape, props) -> spd(size..., shape, props, true)
 
   generic_functions[Properties.SPD] =
     (shape, val_types, props) -> spd(shape, val_types, props)
 end
 
-function spd{T}(packed_shape::Tuple{T, Shape.Band, Bool, Int, Int}, properties, valTypes)
+function spd(packed_shape::Tuple{T, Shape.Band, Bool, Int, Int}, properties, valTypes) where T
 
   special_shape, shape, symmetric, rows, cols = packed_shape
   if (special_shape == Shape.General || special_shape == Shape.Symmetric) &&
@@ -63,7 +64,7 @@ function spd(rows, cols, shape::Shape.Symmetric, properties, _positive::Bool)
   end
   # Avoid very low determinant
   #@printf("%f %f %f %f\n", mat(1, 1), mat(1, 2), mat(2, 1), mat(2,2))
-  mat = mat + eye(rows)*rows
+  mat = mat + Matrix{Float64}(I, rows, rows) * rows
   return Symmetric(mat' * mat)
 
 end

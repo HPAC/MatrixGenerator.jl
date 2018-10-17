@@ -1,4 +1,5 @@
-
+using Nullables
+using LinearAlgebra
 @enum ValuesType none=0 positive=1 negative=2
 
 function isa_obj_type(obj, obj_type)

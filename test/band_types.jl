@@ -1,4 +1,3 @@
-
 function generate_band_types(withSymmetric::Bool=true,withTriangular::Bool=true, withBanded::Bool=true)
 
   shape_types = Set()

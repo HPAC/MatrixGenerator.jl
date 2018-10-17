@@ -1,8 +1,4 @@
-workspace()
-reload("Benchmarker")
-
-using Benchmarker;
-using Benchmarker.Plotter;
+using MatrixGenerator
 
 function matmul(n::Int)
   A = rand(n, n);
@@ -10,14 +6,14 @@ function matmul(n::Int)
   return A*B;
 end
 
-plotter2 = Plotter.Plot{Float64}("julia_data.txt", ["N"; "N^2"]);
+plotter = Benchmarker.Plot("julia_data.txt", ["N"; "N^2"])
 for i=50:10:100
-  Benchmarker.Plotter.add_data(plotter2, [i; i^2], @Benchmarker.time(matmul(i)));
+  Benchmarker.add_data(plotter, [i; i^2], @Benchmarker.time(matmul(i)))
 end
-Benchmarker.Plotter.finish(plotter2);
+Benchmarker.finish(plotter);
 
-plotter = Plotter.Plot{Float64}("julia_data2.txt");
+plotter2 = Benchmarker.Plot("julia_data2.txt")
 for i=50:10:100
-  Benchmarker.Plotter.add_data(plotter, @Benchmarker.time(matmul(i)));
+  Benchmarker.add_data(plotter2, @Benchmarker.time(matmul(i)))
 end
-Benchmarker.Plotter.finish(plotter);
+Benchmarker.finish(plotter2)

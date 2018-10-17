@@ -1,6 +1,3 @@
-using Base.Test
-using MatrixGenerator
-
 matrix_sq_sizes = [ [1, 1], [2, 2], [33, 33], [49, 49], [50, 50] ]
 properties = Dict()
 properties[ [Properties.SPD] ] = Nullable()
@@ -9,10 +6,8 @@ properties[ [Properties.SPD, Properties.Positive] ] = Nullable(x -> @test x >= 0
 #Incorrect shapes
 @test_throws ErrorException generate([1, 2], Shape.General(), Set([Properties.SPD]))
 @test_throws ErrorException generate([2, 1], Shape.General(), Set([Properties.SPD]))
-@test_throws ErrorException generate([3, 3], Shape.UpperTriangular(),
-  Set([Properties.SPD]))
-@test_throws ErrorException generate([3, 3], Shape.LowerTriangular(),
-  Set([Properties.SPD]))
+@test_throws ErrorException generate([3, 3], Shape.UpperTriangular(), Set([Properties.SPD]))
+@test_throws ErrorException generate([3, 3], Shape.LowerTriangular(), Set([Properties.SPD]))
 
 #For some reason isposdef is not overloaded for SymmetricMatrix
 #We have to treat it differently.
@@ -31,7 +26,7 @@ types = [ (Shape.General, matrix_sq_sizes,
 for (datatype, matrix_sizes, gen_func) in types
   for (prop, verificator) in properties
     for cur_size in matrix_sizes
-      mat = generate([cur_size[1], cur_size[2]], datatype(), Set(prop))
+      mat = generate([cur_size[1], cur_size[2]], datatype(), prop)
       verify(cur_size[1], cur_size[2], datatype(), mat, verificator, Nullable(gen_func))
     end
   end

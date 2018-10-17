@@ -1,6 +1,3 @@
-using Base.Test
-using MatrixGenerator
-
 matrix_sq_sizes = [ [1, 1], [2, 2], [33, 33], [49, 49], [50, 50] ]
 properties = Dict()
 properties[ [Properties.Orthogonal] ] = Nullable()
@@ -12,10 +9,8 @@ properties[ [Properties.Orthogonal, Properties.Negative] ] = Nullable(x -> @test
 @test_throws ErrorException generate([2, 1], Shape.General(), Set([Properties.Orthogonal]))
 @test_throws ErrorException generate([4, 4], Shape.Symmetric(), Set([Properties.Orthogonal]))
 @test_throws ErrorException generate([2, 2], Shape.Symmetric(), Set([Properties.Orthogonal]))
-@test_throws ErrorException generate([3, 3], Shape.UpperTriangular(),
-  Set([Properties.Orthogonal]))
-@test_throws ErrorException generate([3, 3], Shape.LowerTriangular(),
-  Set([Properties.Orthogonal]))
+@test_throws ErrorException generate([3, 3], Shape.UpperTriangular(), Set([Properties.Orthogonal]))
+@test_throws ErrorException generate([3, 3], Shape.LowerTriangular(), Set([Properties.Orthogonal]))
 
 #Incorrect combination
 @test_throws ErrorException generate([1, 2], Shape.General(),
@@ -25,7 +20,8 @@ properties[ [Properties.Orthogonal, Properties.Negative] ] = Nullable(x -> @test
 
 # For orthogonal matrices A^-1 = A'
 # Thus A * A' = I
-verification_function = (x) -> @test isapprox(x*x', eye(size(x, 1)))
+# if statement added for the 1x1 matrix (whose size returns only 1 value)
+verification_function = (x) -> @test isapprox(x*x', Matrix{Float64}(I, typeof(x) == Array{Float64, 1} ? (1,1) : size(x)))
 
 # Only diagonal has supports full set of properties
 types = [ (Shape.General(), Dict([Properties.Orthogonal] => Nullable()), matrix_sq_sizes),
@@ -35,7 +31,7 @@ types = [ (Shape.General(), Dict([Properties.Orthogonal] => Nullable()), matrix_
 for (datatype, props, matrix_sizes) in types
   for (prop, verificator) in props
     for cur_size in matrix_sizes
-      mat = generate([cur_size[1], cur_size[2]], datatype, Set(prop))
+      mat = generate([cur_size[1], cur_size[2]], datatype, prop)
       verify(cur_size[1], cur_size[2], datatype,
         mat, verificator, Nullable(verification_function))
     end

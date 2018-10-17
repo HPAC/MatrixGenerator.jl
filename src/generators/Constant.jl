@@ -1,17 +1,16 @@
-
-using .Shape;
-using .Properties;
+using .Shape
+using .Properties
 
 function define_constant(functions, generic_functions)
 
-  functions[ Set([Properties.Constant]) ] =
-    (size, shape, props) -> constant(size..., shape, props);
+  functions[ [Properties.Constant] ] =
+    (size, shape, props) -> constant(size..., shape, props)
 
   generic_functions[Properties.Constant] =
     (shape, val_types, props) -> constant(shape, val_types, props)
 end
 
-function constant{T}(packed_shape::Tuple{T, Shape.Band, Bool, Int, Int}, properties, valTypes)
+function constant(packed_shape::Tuple{T, Shape.Band, Bool, Int, Int}, properties, valTypes) where T
 
   # verify if we can use one of easy generators
   special_shape, shape, symmetric, rows, cols = packed_shape

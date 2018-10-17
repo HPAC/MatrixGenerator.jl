@@ -1,51 +1,49 @@
-
 module MatrixGenerator
 
-  export GeneratorImpl
+  export Shape
   export generate
-
-  include("benchmarker/Benchmarker.jl")
+  export unwrap
+  export Properties
   export Benchmarker
 
   include("Shape.jl")
   include("Properties.jl")
-  include("TypeMatcher.jl")
-  #import shape types
   using .Shape
-  #export unwrap
-  export Shape
-
   using .Properties
-  export Properties
 
+  include("TypeMatcher.jl")
   include("generators/Random.jl")
   include("generators/Constant.jl")
   include("generators/SPD.jl")
   include("generators/Orthogonal.jl")
+  include("benchmarker/Benchmarker.jl")
 
-  type GeneratorImpl
+  using LinearAlgebra
+  include("Tools.jl")
+
+  mutable struct GeneratorImpl
 
     generators::Dict
     generic_generators::Dict
 
     function GeneratorImpl()
-      a = Dict{Set{DataType}, Any}();
-      generic_gen = Dict{DataType, Any}();
-      define_random(a, generic_gen);
-      define_constant(a, generic_gen);
-      define_spd(a, generic_gen);
-      define_orthogonal(a, generic_gen);
+      a = Dict{Array{DataType, 1}, Any}()
+      generic_gen = Dict{DataType, Any}()
+      define_random(a, generic_gen)
+      define_constant(a, generic_gen)
+      define_spd(a, generic_gen)
+      define_orthogonal(a, generic_gen)
       return new(a, generic_gen)
     end
-
   end
+
   const generator = GeneratorImpl()
 
   function extract_type(obj)
     return isa(obj, DataType) ? obj : typeof(obj)
   end
 
-  function generate{T <: ShapeType}(size, shape::T, properties)
+  function generate(size, shape::T, properties) where T <: ShapeType
     mat = generator.generators[map(extract_type, properties)](size, shape, properties)
     if isa(shape, Shape.General)
       if size[2] == 1
@@ -77,5 +75,4 @@ module MatrixGenerator
       return mat
     end
   end
-
 end

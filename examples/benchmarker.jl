@@ -1,9 +1,4 @@
-#include("../../julia/Benchmarker.jl/src/Benchmarker.jl")
-#push!(LOAD_PATH, pwd() * "")
-workspace()
-reload("Benchmarker")
-using Benchmarker;
-
+using MatrixGenerator
 
 function f(x::Int, y::Int)
   y::Float64 = y;
