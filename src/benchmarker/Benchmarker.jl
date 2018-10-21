@@ -13,10 +13,12 @@
 module Benchmarker
 
 	using Statistics
-	export measure, show
+	using DelimitedFiles
 
 	include("Results.jl")
-	include("Plotter.jl")
+	export show
+
+	include("Plot.jl")
 
 	function measure(iters, f, args...)
 
