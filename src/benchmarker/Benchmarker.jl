@@ -12,6 +12,7 @@
 
 module Benchmarker
 
+	using Statistics
 	export measure, show
 
 	include("Results.jl")
