@@ -8,6 +8,7 @@ struct Results
   std_dev::Float64
   min_time::Float64
   max_time::Float64
+  timings::Array{Float64, 1}
 end
 
 function Results(n::Int, timings::Array{Float64, 1})
@@ -17,7 +18,7 @@ function Results(n::Int, timings::Array{Float64, 1})
   min_time = minimum(timings)
   max_time = maximum(timings)
 
-  return Results(samples, average_time, std_dev, min_time, max_time)
+  return Results(samples, average_time, std_dev, min_time, max_time, timings)
 end
 
 function Base.show(io::IO, r::Results)
