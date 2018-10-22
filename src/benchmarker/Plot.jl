@@ -4,6 +4,7 @@
 
 mutable struct Plot
   file::IOStream
+  file_timings::IOStream
   delimiter::Char
 end
 
@@ -13,15 +14,20 @@ function Plot(name::String, extra_labels::Array{String, 1} = Array{String, 1}(),
 
   f = open(name, "w")
   writedlm(f, labels, delimiter)
-  return Plot(f, delimiter)
+
+  ft = open(string(name,".timings"), "w")
+  return Plot(f, ft, delimiter)
 end
 
 function add_data(p::Plot, extra_data::Array{P, 1}, timings::Results) where P
   t = [timings.average_time timings.std_dev timings.min_time timings.max_time]
   data = isempty(extra_data) ? t : [reshape(extra_data, (1, :)) t]
   writedlm(p.file, data, p.delimiter)
+
+  writedlm(p.file_timings, transpose(timings.timings), p.delimiter)
 end
 
 function finish(p::Plot)
   close(p.file)
+  close(p.file_timings)
 end
