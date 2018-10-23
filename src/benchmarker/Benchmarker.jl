@@ -39,7 +39,7 @@ module Benchmarker
 		local elapsed_time::Float64 = 0.0
 		for i=1:iters
             copy_args = map(copy, args)
-			#gcscrub()
+			gcscrub()
 			#cachescrub()
 			elapsed_time = @elapsed f(copy_args...)
 			timings[i] = elapsed_time
