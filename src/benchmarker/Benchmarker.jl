@@ -10,46 +10,40 @@
 # https://github.com/johnmyleswhite/Benchmarks.jl/blob/master/src/benchmarkable.jl
 # https://github.com/schmrlng/CPUTime.jl/blob/master/src/CPUTime.jl
 
+# Trigger several successive GC sweeps. This is more comprehensive than running just a
+# single sweep, since freeable objects may need more than one sweep to be appropriately
+# marked and freed.
+
+
 module Benchmarker
 
-	export measure, show
+	using Statistics
+	using DelimitedFiles
 
 	include("Results.jl")
-	include("Plotter.jl")
+	export show
+
+	include("Plot.jl")
+
+	gcscrub() = (GC.gc(); GC.gc(); GC.gc(); GC.gc())
+	cachescrub() = rand(5000, 5000) + rand(5000, 5000)
 
 	function measure(iters, f, args...)
-
 		timings = Array{Float64}(undef, iters)
 
-		# Compile f and time functions
-		@elapsed f(map(copy, args)...)
+		# Compile f and let JIT optimize f
+		#for _ in 1:10
+			@elapsed f(map(copy, args)...)
+		#end
 
 		local elapsed_time::Float64 = 0.0
 		for i=1:iters
             copy_args = map(copy, args)
+			cachescrub()
+			gcscrub()
 			elapsed_time = @elapsed f(copy_args...)
 			timings[i] = elapsed_time
 		end
 		return Results(iters, timings)
-
 	end
-
-	macro time(ex)
-
-		quote
-			timings = Array{Float64}(undef, 100)
-
-			# Compile f and time functions
-			@elapsed $(esc(ex))
-
-			local elapsed_time::Float64 = 0.0
-			for i=1:100
-				elapsed_time = @elapsed $(esc(ex))
-				timings[i] = elapsed_time
-			end
-			Results(100, timings)
-		end
-
-	end
-
 end
