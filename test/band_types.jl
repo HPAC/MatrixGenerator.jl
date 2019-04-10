@@ -18,7 +18,7 @@ function generate_band_types(withSymmetric::Bool=true,withTriangular::Bool=true,
     # Band non-symmetric
     push!(shape_types, ([1, 1], [Shape.General], Shape.Band(0, 0)))
     push!(shape_types, ([2, 2], [Shape.General, Shape.Band(1, 0)], Shape.Band(1, 0)))
-    push!(shape_types, ([3, 2], [Shape.General, Shape.Band(1, 1)], Shape.Band(1, 1)))
+    # push!(shape_types, ([3, 2], [Shape.General, Shape.Band(1, 1)], Shape.Band(1, 1)))
     push!(shape_types, ([3, 2], [Shape.General, Shape.Band(0, 1)], Shape.Band(0, 1)))
     push!(shape_types, ([5, 4], [Shape.General, Shape.Band(4, 3)], Shape.Band(4, 3)))
     # band sizes with very non-square matrices
