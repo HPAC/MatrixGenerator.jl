@@ -1,5 +1,6 @@
 using .Shape
 using .Properties
+using LinearAlgebra
 
 function define_spd(functions, generic_functions)
 
@@ -55,17 +56,10 @@ function spd(rows, cols, shape::Shape.Symmetric, properties, _positive::Bool)
     throw(ErrorException("Non-square matrix passed to a symmetric generator!"))
   end
 
-  if _positive
-    mat = random(rows, cols, Shape.UpperTriangular(),
-      Set([Properties.Random]), positive)
-  else
-    mat = random(rows, cols, Shape.UpperTriangular(),
-      Set([Properties.Random(-1, 1)]), none)
-  end
-  # Avoid very low determinant
-  #@printf("%f %f %f %f\n", mat(1, 1), mat(1, 2), mat(2, 1), mat(2,2))
-  mat = mat + Matrix{Float64}(I, rows, rows) * rows
-  return Symmetric(mat' * mat)
+  # _positive is ignored.
+  tmp = randn(rows, rows)
+  mat = tril(tmp) + transpose(tril(tmp, -1)) + (2*sqrt(rows)+3)*I
+  return Symmetric(mat)
 
 end
 
@@ -84,5 +78,5 @@ function spd(rows, cols, shape::Shape.Diagonal, properties, positive::Bool)
   if rows != cols
     throw(ErrorException("A non-square diagonal matrix cannot be symmetric positive definite!"))
   end
-  return Diagonal( vec(rand(rows, 1)) )
+  return Diagonal( vec(9.5 .+ rand(rows, 1)) )
 end

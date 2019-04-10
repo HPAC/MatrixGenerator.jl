@@ -105,6 +105,7 @@ end
 function random(rows, cols, shape::Shape.Diagonal, properties, valTypes::T) where T <: ValuesType
 
   # fill one row
-  mat = random(1, min(rows, cols), Shape.General(), properties, valTypes)
+  n = min(rows, cols)
+  mat = sign.(rand(1, n) .- 0.5)*10 + (rand(1, n) .- 0.5)
   return apply_diagonal(rows, cols, mat)
 end
