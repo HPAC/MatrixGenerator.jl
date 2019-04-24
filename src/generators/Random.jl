@@ -90,15 +90,17 @@ end
 
 function random(rows, cols, shape::Shape.UpperTriangular, properties, valTypes::T) where T <: ValuesType
 
-  # fill whole matrix, one part will be ignored
-  mat = random(rows, cols, Shape.General(), properties, valTypes)
+  n = min(rows, cols)
+  tmp = sign.(rand(n) .- 0.5)*5 + (rand(n) .- 0.5)
+  mat = triu((rand(rows, cols) .- 0.5)*0.5, -1) + diagm(0 => tmp)
   return apply_upper_triangular(rows, cols, mat)
 end
 
 function random(rows, cols, shape::Shape.LowerTriangular, properties, valTypes::T) where T <: ValuesType
 
-  # fill whole matrix, one part will be ignored
-  mat = random(rows, cols, Shape.General(), properties, valTypes)
+  n = min(rows, cols)
+  tmp = sign.(rand(n) .- 0.5)*5 + (rand(n) .- 0.5)
+  mat = tril((rand(rows, cols) .- 0.5)*0.5, -1) + diagm(0 => tmp)
   return apply_lower_triangular(rows, cols, mat)
 end
 

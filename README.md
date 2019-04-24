@@ -7,7 +7,7 @@ Julia package supporting benchmarking of functions with automatic export of meas
 
 When multiple shape properties are provided, the generator tries to find the largest matrix shape satisfying all requirements. For all example, merging ```General``` matrix type with ```LowerTriangular``` creates a lower triangular matrix.
 
-For diagonal matrices, the range provided in ```Properties.Random()``` currently gets ignored.
+For diagonal and triangular matrices, the range provided in ```Properties.Random()``` currently gets ignored.
 
 **Support matrix properties:** random, constant, symmetric positive-definite, orthogonal
 
