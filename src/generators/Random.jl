@@ -90,17 +90,21 @@ end
 
 function random(rows, cols, shape::Shape.UpperTriangular, properties, valTypes::T) where T <: ValuesType
 
-  n = min(rows, cols)
-  tmp = sign.(rand(n) .- 0.5)*5 + (rand(n) .- 0.5)
-  mat = triu((rand(rows, cols) .- 0.5)*0.5, -1) + diagm(0 => tmp)
+  diag_size = min(rows, cols)
+  tmp = sign.(rand(diag_size) .- 0.5)*5 + (rand(diag_size) .- 0.5)
+  # this can be simplifed in Julia 1.3
+  D = [diagm(0 => tmp) zeros(diag_size, cols-diag_size); zeros(rows-diag_size, diag_size) zeros(rows-diag_size, cols-diag_size)]
+  mat = triu((rand(rows, cols) .- 0.5)*0.5, -1) + D
   return apply_upper_triangular(rows, cols, mat)
 end
 
 function random(rows, cols, shape::Shape.LowerTriangular, properties, valTypes::T) where T <: ValuesType
 
-  n = min(rows, cols)
-  tmp = sign.(rand(n) .- 0.5)*5 + (rand(n) .- 0.5)
-  mat = tril((rand(rows, cols) .- 0.5)*0.5, -1) + diagm(0 => tmp)
+  diag_size = min(rows, cols)
+  tmp = sign.(rand(diag_size) .- 0.5)*5 + (rand(diag_size) .- 0.5)
+  # this can be simplifed in Julia 1.3
+  D = [diagm(0 => tmp) zeros(diag_size, cols-diag_size); zeros(rows-diag_size, diag_size) zeros(rows-diag_size, cols-diag_size)]
+  mat = tril((rand(rows, cols) .- 0.5)*0.5, -1) + D
   return apply_lower_triangular(rows, cols, mat)
 end
 
