@@ -28,4 +28,5 @@ function Base.show(io::IO, r::Results)
   println("Standard deviation: $(round(r.std_dev, digits=3))")
   println("Best: $(r.min_time) $(round(100 * (r.min_time - r.average_time) / r.average_time, digits=3))%")
   println("Worst: $(r.max_time) $(round(100 * (r.max_time - r.average_time) / r.average_time, digits=3))%")
+  println("Timings: $(r.timings)")
 end

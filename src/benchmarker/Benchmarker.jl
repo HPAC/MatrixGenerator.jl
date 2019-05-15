@@ -17,31 +17,32 @@
 
 module Benchmarker
 
-	using Statistics
-	using DelimitedFiles
+using Statistics
+using DelimitedFiles
 
-	include("Results.jl")
-	export show
+include("Results.jl")
+export show
 
-	include("Plot.jl")
+include("Plot.jl")
 
-	gcscrub() = (GC.gc(); GC.gc(); GC.gc(); GC.gc())
+gcscrub() = (GC.gc(); GC.gc(); GC.gc(); GC.gc())
 
-	A = rand(7500000)
-	cachescrub() = (A .+= rand())
+A = rand(7500000)
+cachescrub() = (A .+= rand())
 
-	function measure(iters, f, args...)
-		timings = Array{Float64}(undef, iters)
+function measure(iters, f, args...)
+  timings = Array{Float64}(undef, iters)
 
-    # JIT optimization run removed. Postprocessing will handle JIT-ed runs
-		local elapsed_time::Float64 = 0.0
-		for i=1:iters
-      copy_args = map(copy, args)
-			cachescrub()
-			gcscrub()
-			elapsed_time = @elapsed f(copy_args...)
-			timings[i] = elapsed_time
-		end
-		return Results(iters, timings)
-	end
+  # JIT optimization run removed. Postprocessing will handle JIT-ed runs
+  local elapsed_time::Float64 = 0.0
+
+  for i=1:iters
+    copy_args = map(copy, args)
+    cachescrub()
+    gcscrub()
+    result, elapsed_time = f(copy_args...)
+    timings[i] = elapsed_time
+  end
+  return Results(iters, timings)
+end
 end
