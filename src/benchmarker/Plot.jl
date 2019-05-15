@@ -12,10 +12,10 @@ function Plot(name::String, extra_labels::Array{String, 1} = Array{String, 1}(),
   labels = ["Time" "StdDev" "Min" "Max"]
   labels = isempty(extra_labels) ? labels : [reshape(extra_labels, (1, :)) labels]
 
-  f = open(name, "w")
+  f = open(string(name,".txt"), "w")
   writedlm(f, labels, delimiter)
 
-  ft = open(string(name,".timings"), "w")
+  ft = open(string(name,"_timings.txt"), "w")
   return Plot(f, ft, delimiter)
 end
 

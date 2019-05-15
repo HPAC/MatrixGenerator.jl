@@ -90,21 +90,28 @@ end
 
 function random(rows, cols, shape::Shape.UpperTriangular, properties, valTypes::T) where T <: ValuesType
 
-  # fill whole matrix, one part will be ignored
-  mat = random(rows, cols, Shape.General(), properties, valTypes)
+  diag_size = min(rows, cols)
+  tmp = sign.(rand(diag_size) .- 0.5)*5 + (rand(diag_size) .- 0.5)
+  # this can be simplifed in Julia 1.3
+  D = [diagm(0 => tmp) zeros(diag_size, cols-diag_size); zeros(rows-diag_size, diag_size) zeros(rows-diag_size, cols-diag_size)]
+  mat = triu((rand(rows, cols) .- 0.5)*0.5, -1) + D
   return apply_upper_triangular(rows, cols, mat)
 end
 
 function random(rows, cols, shape::Shape.LowerTriangular, properties, valTypes::T) where T <: ValuesType
 
-  # fill whole matrix, one part will be ignored
-  mat = random(rows, cols, Shape.General(), properties, valTypes)
+  diag_size = min(rows, cols)
+  tmp = sign.(rand(diag_size) .- 0.5)*5 + (rand(diag_size) .- 0.5)
+  # this can be simplifed in Julia 1.3
+  D = [diagm(0 => tmp) zeros(diag_size, cols-diag_size); zeros(rows-diag_size, diag_size) zeros(rows-diag_size, cols-diag_size)]
+  mat = tril((rand(rows, cols) .- 0.5)*0.5, -1) + D
   return apply_lower_triangular(rows, cols, mat)
 end
 
 function random(rows, cols, shape::Shape.Diagonal, properties, valTypes::T) where T <: ValuesType
 
   # fill one row
-  mat = random(1, min(rows, cols), Shape.General(), properties, valTypes)
+  n = min(rows, cols)
+  mat = sign.(rand(1, n) .- 0.5)*10 + (rand(1, n) .- 0.5)
   return apply_diagonal(rows, cols, mat)
 end

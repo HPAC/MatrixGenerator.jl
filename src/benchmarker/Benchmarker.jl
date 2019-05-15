@@ -26,7 +26,9 @@ module Benchmarker
 	include("Plot.jl")
 
 	gcscrub() = (GC.gc(); GC.gc(); GC.gc(); GC.gc())
-	cachescrub() = rand(5000, 5000) + rand(5000, 5000)
+
+	A = rand(7500000)
+	cachescrub() = (A .+= rand())
 
 	function measure(iters, f, args...)
 		timings = Array{Float64}(undef, iters)

@@ -23,7 +23,7 @@ types = [ (Shape.General(), matrix_sizes)
           (Shape.Symmetric(), matrix_sq_sizes)
           (Shape.UpperTriangular(), matrix_sizes)
           (Shape.LowerTriangular(), matrix_sizes)
-          (Shape.Diagonal(), matrix_sizes)
+          # (Shape.Diagonal(), matrix_sizes) # removed because Properties.Random() gets ignored now
         ]
 
 for (datatype, matrix_sizes) in types

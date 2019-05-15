@@ -1,7 +1,0 @@
-language: julia
-julia:
-    - 1.0
-
-#Use default script
-script:
-    #    - julia --check-bounds=yes --color=yes -e 'Pkg.clone(pwd()/julia/Generator.jl"); Pkg.build("Generator"); Pkg.test("ImageQuilting"; coverage=true)'
