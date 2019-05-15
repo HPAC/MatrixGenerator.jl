@@ -33,14 +33,10 @@ module Benchmarker
 	function measure(iters, f, args...)
 		timings = Array{Float64}(undef, iters)
 
-		# Compile f and let JIT optimize f
-		#for _ in 1:10
-			@elapsed f(map(copy, args)...)
-		#end
-
+    # JIT optimization run removed. Postprocessing will handle JIT-ed runs
 		local elapsed_time::Float64 = 0.0
 		for i=1:iters
-            copy_args = map(copy, args)
+      copy_args = map(copy, args)
 			cachescrub()
 			gcscrub()
 			elapsed_time = @elapsed f(copy_args...)
