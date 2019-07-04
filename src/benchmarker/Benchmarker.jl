@@ -30,19 +30,44 @@ gcscrub() = (GC.gc(); GC.gc(); GC.gc(); GC.gc())
 A = rand(7500000)
 cachescrub() = (A .+= rand())
 
+function ci(data)
+  n = length(data)
+  # z = 1.96 # 95%
+  z = 2.576 # 99%
+  # z = 3.291 # 99.9%
+  lower_pos = floor(Integer, (n - z*sqrt(n))/2)
+  upper_pos = ceil(Integer, 1 + (n + z*sqrt(n))/2)
+  return (lower_pos, upper_pos)
+end
+
+function citest(data)
+  n = length(data)
+  if n < 11 # careful: this number depends on z in the ci function
+    return false
+  else 
+    data_sorted = sort(data)
+    (lower_pos, upper_pos) = ci(data_sorted) 
+    m = median(data_sorted)
+    lower_val = data_sorted[lower_pos]
+    upper_val = data_sorted[upper_pos]
+    t = 1.05
+    return m/t < lower_val && upper_val < m*t
+  end
+end
+
 function measure(iters, f, args...)
-  timings = Array{Float64}(undef, iters)
+  timings = Array{Float64}(undef, 0)
 
   # JIT optimization run removed. Postprocessing will handle JIT-ed runs
   local elapsed_time::Float64 = 0.0
 
-  for i=1:iters
+  while !citest(timings)
     copy_args = map(copy, args)
     cachescrub()
     gcscrub()
     result, elapsed_time = f(copy_args...)
-    timings[i] = elapsed_time
+    push!(timings, elapsed_time)
   end
-  return Results(iters, timings)
+  return Results(length(timings), timings)
 end
 end
