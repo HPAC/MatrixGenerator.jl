@@ -30,6 +30,10 @@ gcscrub() = (GC.gc(); GC.gc(); GC.gc(); GC.gc())
 A = rand(15000000)
 cachescrub() = (A .+= rand())
 
+function set_cachescrub_size(n)
+    global A = rand(n)
+end
+
 function ci(data)
   n = length(data)
   # z = 1.96 # 95%
