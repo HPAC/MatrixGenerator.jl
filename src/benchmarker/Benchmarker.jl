@@ -27,7 +27,7 @@ include("Plot.jl")
 
 gcscrub() = (GC.gc(); GC.gc(); GC.gc(); GC.gc())
 
-A = rand(7500000)
+A = rand(15000000)
 cachescrub() = (A .+= rand())
 
 function ci(data)
