@@ -67,8 +67,6 @@ function measure(iters, f, args...)
 
   while !citest(timings)
     copy_args = map(copy, args)
-    cachescrub()
-    gcscrub()
     result, elapsed_time = f(copy_args...)
     push!(timings, elapsed_time)
   end
