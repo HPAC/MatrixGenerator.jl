@@ -27,7 +27,7 @@ include("Plot.jl")
 
 gcscrub() = (GC.gc(); GC.gc(); GC.gc(); GC.gc())
 
-A = rand(15000000)
+A = rand(7500000)
 cachescrub() = (A .+= rand())
 
 function set_cachescrub_size(n)
@@ -60,15 +60,15 @@ function citest(data)
 end
 
 function measure(iters, f, args...)
-  timings = Array{Float64}(undef, 0)
+  timings = Array{Float64}(undef, iters)
 
   # JIT optimization run removed. Postprocessing will handle JIT-ed runs
   local elapsed_time::Float64 = 0.0
 
-  while !citest(timings)
+  for i = 1:iters
     copy_args = map(copy, args)
     result, elapsed_time = f(copy_args...)
-    push!(timings, elapsed_time)
+    timings[i] = elapsed_time
   end
   return Results(length(timings), timings)
 end
