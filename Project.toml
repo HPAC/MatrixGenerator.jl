@@ -1,4 +1,4 @@
-name = "MatrixGenerator.jl"
+name = "MatrixGenerator"
 uuid = "f65535da-76fb-5f13-bab9-19810c17039a"
 version = "0.1.0"
 
